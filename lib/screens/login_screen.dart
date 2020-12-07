@@ -15,12 +15,13 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
-  bool _rememberMe = false;
+  // bool _rememberMe = false;
   String password;
   String email;
   bool showSpinner = false;
 
   //Social button
+  /*
   Widget _SocialBtn(Function onTap, AssetImage logo) {
     return GestureDetector(
       onTap: onTap,
@@ -43,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+  */
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 20),
                         //Password Box
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,6 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                         //Forgot password button
+                        /*
                         Container(
                           alignment: Alignment.centerRight,
                           child: FlatButton(
@@ -171,7 +175,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
+                         */
                         //Check me box
+                        /*
                         Container(
                           height: 20.0,
                           child: Row(
@@ -197,7 +203,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
+                         */
                         //Login button
+                        SizedBox(height: 70),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 25.0),
                           width: double.infinity,
@@ -256,6 +264,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         //OR sign in with text
+                        /*
                         Column(
                           children: <Widget>[
                             Text(
@@ -272,7 +281,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
+                         */
                         //Social Buttons
+                        /*
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 30.0),
                           child: Row(
@@ -289,6 +300,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
+                         */
                         //Sign up Button
                         GestureDetector(
                           onTap: () => Navigator.pushNamed(
