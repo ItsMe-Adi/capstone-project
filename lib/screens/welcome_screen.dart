@@ -17,6 +17,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
+          //gradient theme
+          /*
           Container(
             height: double.infinity,
             width: double.infinity,
@@ -34,6 +36,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
           ),
+          */
+
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/galaxy.jpg'),
+                  fit: BoxFit.cover),
+            ),
+          ),
+
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,14 +73,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               SizedBox(height: 125.0),
               RoundedButton(
                 title: 'LOGIN',
-                color: Colors.white,
+                color: Color(0xFF0A0C12),
                 onPressed: () {
                   Navigator.pushNamed(context, LoginScreen.id);
                 },
               ),
               RoundedButton(
                 title: 'REGISTER',
-                color: Colors.white,
+                color: Color(0xFF0A0C12),
                 onPressed: () {
                   Navigator.pushNamed(context, RegistrationScreen.id);
                 },

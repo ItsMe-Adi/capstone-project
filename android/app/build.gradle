@@ -47,6 +47,10 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    aaptOptions {
+        noCompress 'tflite'
+        noCompress 'lite'
+    }
 }
 
 flutter {
@@ -54,3 +58,5 @@ flutter {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+
