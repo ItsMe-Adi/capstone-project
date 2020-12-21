@@ -12,6 +12,11 @@ import 'package:capstoneapp/components/alert_box.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
 import 'package:tflite/tflite.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:async/async.dart';
+import 'dart:io';
+import 'dart:convert';
 
 class FunctionalityScreen extends StatefulWidget {
   static const String id = 'functionality_screen';
@@ -22,6 +27,7 @@ class FunctionalityScreen extends StatefulWidget {
 class _FunctionalityScreenState extends State<FunctionalityScreen> {
   //model
 
+  /*
   void modelcall() async {
     String res = await Tflite.loadModel(
         model: "assets/models/pretrained_inceptionv3.tflite",
@@ -34,6 +40,56 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
         );
     print('success');
   }
+  */
+  void getImagePredictions(File imageFile) async {
+    print("Making connection");
+    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+    print(length);
+    var uri = Uri.parse("http://192.168.0.106:5000/image");
+
+    print("connection established");
+    var request = new http.MultipartRequest("POST", uri);
+    var multipartFile = new http.MultipartFile("file", stream, length, filename: basename(imageFile.path));
+
+    //contentType: new MediaType(‘image’, ‘png’));
+    request.files.add(multipartFile);
+    var response = await request.send();
+    print(response.statusCode);
+    print(response);
+    if(response.statusCode == 200){
+      final respStr = await response.stream.bytesToString();
+      print(respStr);
+      Map valueMap = json.decode(respStr);
+
+      print(valueMap["caption"]);
+    }
+  }
+
+  void getVideoPredictions(File videoFile) async {
+    print("Making connection for video model");
+    var stream = new http.ByteStream(DelegatingStream.typed(videoFile.openRead()));
+    var length = await videoFile.length();
+    print(length);
+    var uri = Uri.parse("http://192.168.0.106:5000/video");
+
+    print("Connection established");
+    var request = new http.MultipartRequest("POST", uri);
+    var multipartFile = new http.MultipartFile("file", stream, length, filename: basename(videoFile.path));
+
+    request.files.add(multipartFile);
+    var response = await request.send();
+
+    print(response.statusCode);
+    if(response.statusCode == 200){
+      final respStr = await response.stream.bytesToString();
+      print(respStr);
+      Map valueMap = json.decode(respStr);
+
+      print(valueMap["caption"]);
+    }
+
+  }
 
   final _auth = FirebaseAuth.instance;
   File _image;
@@ -43,6 +99,7 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
 
   Future getVideo() async {
     File video;
+
     video = await ImagePicker.pickVideo(source: ImageSource.camera);
     videoPlayerController1 = VideoPlayerController.file(video);
     chewieController = ChewieController(
@@ -171,9 +228,12 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
                   barrierDismissible: false,
                 );
               //made changes here
-              else
-                //Navigator.pushNamed(context, ResultPage.id);
-                modelcall();
+              else if(_image != null){
+                getImagePredictions(_image);
+              }
+              else if(_video != null){
+                getVideoPredictions(_video);
+              }
             },
           )
         ],
