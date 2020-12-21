@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+String caption;
+
 final kRoundedButtonTextStyle = TextStyle(
   color: Color(0xFF1CEDCE),
   letterSpacing: 1.5,

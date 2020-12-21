@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:capstoneapp/components/bottom_button.dart';
 import 'package:capstoneapp/components/reusable_card.dart';
 import 'package:flutter/material.dart';
+import 'package:capstoneapp/constants.dart';
 
 class ResultPage extends StatelessWidget {
   static const String id = 'result_page';
@@ -38,7 +39,7 @@ class ResultPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'YOUR ANSWER WILL COME HERE',
+                    caption,
                     style: TextStyle(fontSize: 22.0, color: Colors.white),
                   ),
                 ],
@@ -48,6 +49,7 @@ class ResultPage extends StatelessWidget {
           BottomButton(
             buttonTitle: 'GENERATE NEW CAPTION',
             onTap: () {
+              caption = null;
               Navigator.pop(context);
             },
           ),

@@ -17,6 +17,7 @@ import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'dart:io';
 import 'dart:convert';
+import 'package:capstoneapp/constants.dart';
 
 class FunctionalityScreen extends StatefulWidget {
   static const String id = 'functionality_screen';
@@ -25,22 +26,6 @@ class FunctionalityScreen extends StatefulWidget {
 }
 
 class _FunctionalityScreenState extends State<FunctionalityScreen> {
-  //model
-
-  /*
-  void modelcall() async {
-    String res = await Tflite.loadModel(
-        model: "assets/models/pretrained_inceptionv3.tflite",
-        // labels: "assets/labels.txt",
-        numThreads: 1, // defaults to 1
-        isAsset:
-            true, // defaults to true, set to false to load resources outside assets
-        useGpuDelegate:
-            false // defaults to false, set to true to use GPU delegate
-        );
-    print('success');
-  }
-  */
   void getImagePredictions(File imageFile) async {
     print("Making connection");
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
@@ -52,7 +37,6 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
     var request = new http.MultipartRequest("POST", uri);
     var multipartFile = new http.MultipartFile("file", stream, length, filename: basename(imageFile.path));
 
-    //contentType: new MediaType(‘image’, ‘png’));
     request.files.add(multipartFile);
     var response = await request.send();
     print(response.statusCode);
@@ -62,7 +46,12 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
       print(respStr);
       Map valueMap = json.decode(respStr);
 
-      print(valueMap["caption"]);
+      caption = valueMap['caption'];
+      setState(() {
+        _video = _video;
+        _image = _image;
+        _output_caption = valueMap['caption'];
+      });
     }
   }
 
@@ -94,6 +83,8 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
   final _auth = FirebaseAuth.instance;
   File _image;
   File _video;
+  String _output_caption;
+
   ChewieController chewieController;
   VideoPlayerController videoPlayerController1;
 
@@ -111,6 +102,7 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
     setState(() {
       _video = video;
       _image = null;
+      _output_caption = null;
     });
   }
 
@@ -131,6 +123,7 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
     setState(() {
       _image = image;
       _video = null;
+      _output_caption = null;
     });
   }
 
@@ -215,6 +208,39 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
                               cardChild: Image.file(_image),
                             ),
                           )
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: <Widget>[
+                _output_caption != null
+                    ? Expanded(
+                  child: ReusableCard(
+                    cardChild: Text(
+                      _output_caption,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'OpenSans',
+                        fontSize: 35.0,
+                      ),
+                    )
+                  ),
+                )
+                    : Expanded(
+                  child: ReusableCard(
+                    cardChild: Text(
+                      'No output',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'OpenSans',
+                        fontSize: 35.0,
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
