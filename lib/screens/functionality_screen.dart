@@ -8,15 +8,10 @@ import 'package:capstoneapp/components/bottom_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:capstoneapp/components/alert_box.dart';
-import 'package:chewie/chewie.dart';
-import 'package:video_player/video_player.dart';
-import 'package:tflite/tflite.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:async/async.dart';
-import 'dart:io';
 import 'dart:convert';
-import 'package:capstoneapp/constants.dart';
 
 class FunctionalityScreen extends StatefulWidget {
   static const String id = 'functionality_screen';
@@ -98,26 +93,8 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
     File video;
     if (isVideo == 3) {
       video = await ImagePicker.pickVideo(source: ImageSource.camera);
-      /*
-      videoPlayerController1 = VideoPlayerController.file(video);
-      chewieController = ChewieController(
-        videoPlayerController: videoPlayerController1,
-        autoPlay: true,
-        looping: true,
-        aspectRatio: 0.8,
-      );
-       */
     } else if (isVideo == 4) {
       video = await ImagePicker.pickVideo(source: ImageSource.gallery);
-      /*
-      videoPlayerController1 = VideoPlayerController.file(video);
-      chewieController = ChewieController(
-        videoPlayerController: videoPlayerController1,
-        autoPlay: true,
-        looping: true,
-        aspectRatio: 0.8,
-      );
-      */
     }
     setState(() {
       _video = video;
@@ -125,15 +102,6 @@ class _FunctionalityScreenState extends State<FunctionalityScreen> {
       _output_caption = null;
     });
   }
-
-  @override
-  /*
-  void dispose() {
-    videoPlayerController1.dispose();
-    chewieController.dispose();
-    super.dispose();
-  }
-   */
 
   Future getImage(int isCamera) async {
     File image;

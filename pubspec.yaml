@@ -21,10 +21,6 @@ dependencies:
   modal_progress_hud: ^0.1.3
   font_awesome_flutter: ^8.8.1
   image_picker: ^0.6.7+14
-  chewie: ^0.10.0
-  tflite: ^1.1.1
-
-
 
 
 
@@ -37,7 +33,6 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/models/
 
 
   fonts:
